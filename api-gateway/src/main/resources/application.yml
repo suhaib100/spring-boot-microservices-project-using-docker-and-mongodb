@@ -1,0 +1,57 @@
+##server.port=8080
+##
+###spring.cloud.gateway.routes[0].id=orders-service-route
+###spring.cloud.gateway.routes[0].uri=lb://orders-service
+###spring.cloud.gateway.routes[0].predicates[0]=Path=/api/orders/**
+###
+###spring.cloud.gateway.routes[1].id=products-service-route
+###spring.cloud.gateway.routes[1].uri=lb://products-service
+###spring.cloud.gateway.routes[1].predicates[0]=Path=/api/products/**
+##
+##eureka.client.service-url.default-zone=http://eureka-server:8761/eureka
+##eureka.client.instance.prefer-ip-address=true
+##
+##logging.level.org.springframework.cloud.gateway=DEBUG
+#
+#
+#server.port=8080
+#
+#eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+#eureka.client.instance.prefer-ip-address=true
+#
+#logging.level.org.springframework.cloud.gateway=DEBUG
+
+
+
+
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    instance:
+      prefer-ip-address: true
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: orders-service-route
+          uri: lb://orders-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - RewritePath=/api/orders/(?<segment>.*), /${segment}
+        - id: products-service-route
+          uri: lb://products-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - RewritePath=/api/products/(?<segment>.*), /${segment}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

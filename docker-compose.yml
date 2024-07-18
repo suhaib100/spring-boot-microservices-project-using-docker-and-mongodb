@@ -1,0 +1,149 @@
+#version: '3.9'
+#
+#services:
+#  mongo:
+#    image: mongo
+#    container_name: mongo
+#    ports:
+#      - "27017:27017"
+#    networks:
+#      - backend
+#    volumes:
+#      - mongo-data:/data/db
+#
+#  eureka-server:
+#    image: springbootmicroserviceproject-eureka-server
+#    container_name: eureka-server
+#    ports:
+#      - "8761:8761"
+#    networks:
+#      - backend
+#
+#  api-gateway:
+#    image: springbootmicroserviceproject-api-gateway
+#    container_name: api-gateway
+#    ports:
+#      - "8080:8080"  # Update port to 8080
+#    environment:
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+#      - EUREKA_INSTANCE_IP_ADDRESS=192.168.1.37
+#    depends_on:
+#      - eureka-server
+#      - mongo
+#    networks:
+#      - backend
+#
+#  orders-service:
+#    image: springbootmicroserviceproject-orders-service
+#    container_name: orders-service
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/orders-service-db
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+#      - EUREKA_INSTANCE_IP_ADDRESS=192.168.1.37
+#    depends_on:
+#      - eureka-server
+#      - mongo
+#    networks:
+#      - backend
+#
+#  products-service:
+#    image: springbootmicroserviceproject-products-service
+#    container_name: products-service
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/products-service-db
+#      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+#      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+#      - EUREKA_INSTANCE_IP_ADDRESS=192.168.1.37
+#    depends_on:
+#      - eureka-server
+#      - mongo
+#    networks:
+#      - backend
+#
+#networks:
+#  backend:
+#    driver: bridge
+#
+#volumes:
+#  mongo-data:
+#
+#
+#
+#
+
+
+
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27015:27017"
+    networks:
+      - backend
+    volumes:
+      - mongo-data:/data/db
+
+  eureka-server:
+    image: springbootmicroserviceproject-eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - backend
+
+  api-gateway:
+    image: springbootmicroserviceproject-api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - backend
+
+  orders-service:
+    image: springbootmicroserviceproject-orders-service
+    container_name: orders-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/orders-service-db
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - backend
+
+  products-service:
+    image: springbootmicroserviceproject-products-service
+    container_name: products-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/products-service-db
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  mongo-data:
